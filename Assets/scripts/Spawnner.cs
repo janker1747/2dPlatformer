@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Spawnner : MonoBehaviour
@@ -9,14 +10,25 @@ public class Spawnner : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("SpawnObject", _spawnTime, _spawnTime);
+        StartCoroutine(SpawnObject());
     }
 
-    private void SpawnObject()
+    private IEnumerator SpawnObject()
     {
-        int minValue = 0;
+        WaitForSeconds _delay = new WaitForSeconds(_spawnTime);
 
-        int randomIndex = Random.Range(minValue, _spawnPoints.Length);
-        Instantiate(_coin, _spawnPoints[randomIndex].position, _spawnPoints[randomIndex].rotation);
+        while (true)
+        {
+            yield return _delay;
+            CreateObject();
+        }
+    }
+
+    private void CreateObject()
+    {
+        int spawnIndex = Random.Range(0, _spawnPoints.Length);
+        Transform spawnPoint = _spawnPoints[spawnIndex];
+
+        Instantiate(_coin, spawnPoint.position, spawnPoint.rotation);
     }
 }

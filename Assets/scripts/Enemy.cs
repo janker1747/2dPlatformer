@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed = 4f;
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private float _minDistance = 0.1f;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private AnimatorController _animator;
 
     private bool _isFacingRight = true;
     private int _currentWaypointIndex = 0;
@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, _waypoints[_currentWaypointIndex].position, _speed * Time.deltaTime);
-        _animator.SetFloat("speed", Mathf.Abs(transform.position.x));
+        _animator.SetRunning(Mathf.Abs(transform.position.x));
 
         if ((transform.position - _waypoints[_currentWaypointIndex].position).sqrMagnitude < _minDistance * _minDistance)
         {
@@ -32,8 +32,6 @@ public class Enemy : MonoBehaviour
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        transform.rotation = Quaternion.Euler(0, _isFacingRight ? 0 : 180, 0);
     }
 }
