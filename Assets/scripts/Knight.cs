@@ -4,7 +4,7 @@ public class Knight : MonoBehaviour
 {
     [SerializeField] private AnimatorController _animator;
     [SerializeField] private InputReader _inputReader;
-    [SerializeField] private GroundChecker _groundChecker;  
+    [SerializeField] private GroundChecker _groundChecker;
 
     private Rigidbody2D _rigidbody;
     private float _speed = 5f;
@@ -12,26 +12,27 @@ public class Knight : MonoBehaviour
     private float _horizontalMove;
     private bool _isRight = true;
 
+    private Quaternion _rotationRight;
+    private Quaternion _rotationLeft;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+
+        _rotationRight = Quaternion.identity;
+        _rotationLeft = Quaternion.Euler(0, 180, 0);
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        _horizontalMove = _inputReader.GetHorizontalInput() * _speed;
-        _animator.SetRunning(Mathf.Abs(_horizontalMove));
+        _inputReader.JumpPressed += TryJump;
+        _inputReader.HorizontalChanged += OnHorizontalChanged;
+    }
 
-        if (_horizontalMove < 0 && _isRight)
-        {
-            Flip();
-        }
-        else if (_horizontalMove > 0 && !_isRight)
-        {
-            Flip();
-        }
-
-        Jump();
+    private void OnDisable()
+    {
+        _inputReader.JumpPressed -= TryJump;
+        _inputReader.HorizontalChanged -= OnHorizontalChanged;
     }
 
     private void FixedUpdate()
@@ -40,17 +41,45 @@ public class Knight : MonoBehaviour
         _rigidbody.velocity = targetVelocity;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<Coin>(out Coin coin))
+        {
+            Destroy(coin.gameObject);
+        }
+    }
+
+    private void OnHorizontalChanged(float direction)
+    {
+        _horizontalMove = direction * _speed;
+        _animator.SetRunning(Mathf.Abs(_horizontalMove));
+
+        if (direction < 0 && _isRight)
+        {
+            Flip();
+        }
+        else if (direction > 0 && !_isRight)
+        {
+            Flip();
+        }
+    }
+
     private void Flip()
     {
         _isRight = !_isRight;
-        transform.rotation = Quaternion.Euler(0, _isRight ? 0 : 180, 0);
+        transform.rotation = _isRight ? _rotationRight : _rotationLeft;
+    }
+
+    private void TryJump()
+    {
+        if (_groundChecker.IsGrounded())
+        {
+            Jump();
+        }
     }
 
     private void Jump()
     {
-        if (_groundChecker.IsGrounded() && _inputReader.IsJumpPressed()) 
-        {
-            _rigidbody.AddForce(transform.up * _jumpForce, ForceMode2D.Impulse);
-        }
+        _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 }

@@ -1,18 +1,29 @@
+using System;
 using UnityEngine;
 
 public class InputReader : MonoBehaviour
-{  
-    private const string CommandHorizontal = "Horizontal";
-    private const string CommandJump = "Jump";
+{
+    public event Action JumpPressed;
+    public event Action<float> HorizontalChanged;
 
-    public float GetHorizontalInput()
+    private const string _ñommandHorizontal = "Horizontal";
+    private const string _ñommandJump = "Jump";
+
+    private float _previousHorizontalInput = 0f;
+
+    private void Update()
     {
+        float horizontalInput = Input.GetAxisRaw(_ñommandHorizontal);
 
-        return Input.GetAxisRaw(CommandHorizontal);
-    }
+        if (Mathf.Abs(horizontalInput - _previousHorizontalInput) > Mathf.Epsilon)
+        {
+            _previousHorizontalInput = horizontalInput;
+            HorizontalChanged?.Invoke(horizontalInput);
+        }
 
-    public bool IsJumpPressed()
-    {
-        return Input.GetButtonDown(CommandJump);
+        if (Input.GetButtonDown(_ñommandJump))
+        {
+            JumpPressed?.Invoke();
+        }
     }
 }
