@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
+    private const string _commandHorizontal = "Horizontal";
+    private const string _commandJump = "Jump";
+
     public event Action JumpPressed;
     public event Action<float> HorizontalChanged;
-
-    private const string _ñommandHorizontal = "Horizontal";
-    private const string _ñommandJump = "Jump";
 
     private float _previousHorizontalInput = 0f;
 
     private void Update()
     {
-        float horizontalInput = Input.GetAxisRaw(_ñommandHorizontal);
+        float horizontalInput = Input.GetAxisRaw(_commandHorizontal);
 
         if (Mathf.Abs(horizontalInput - _previousHorizontalInput) > Mathf.Epsilon)
         {
@@ -21,7 +21,7 @@ public class InputReader : MonoBehaviour
             HorizontalChanged?.Invoke(horizontalInput);
         }
 
-        if (Input.GetButtonDown(_ñommandJump))
+        if (Input.GetButtonDown(_commandJump))
         {
             JumpPressed?.Invoke();
         }

@@ -1,10 +1,10 @@
-using TMPro;
 using UnityEngine;
 
 public class TargetFollower : MonoBehaviour
 {
     [SerializeField] private Transform _player;
     [SerializeField] private float _speed = 5f;
+
     private Vector3 _offset;
 
     private void Awake()
