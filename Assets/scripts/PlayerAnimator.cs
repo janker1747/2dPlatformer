@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    private const string speed = nameof(speed);
     private Animator _animator;
 
     private void Awake()
@@ -10,17 +9,19 @@ public class PlayerAnimator : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public static class Params
-    {
-        public static readonly int Speed = Animator.StringToHash(nameof(speed));
-    }
     private void LogParameters()
     {
-        float speed = _animator.GetFloat(PlayerAnimator.Params.Speed);
+        float speed = _animator.GetFloat(Params.Speed);
+        bool isEnemyAttack = _animator.GetBool(Params.IsAttack);
     }
 
-    public void SetRunning(float speed)
+    public void StartRunning(float speed)
     {
-        _animator.SetFloat(PlayerAnimator.Params.Speed, Mathf.Abs(speed));
+        _animator.SetFloat(Params.Speed, Mathf.Abs(speed));
+    }
+
+    public void StartAttack()
+    {
+        _animator.SetTrigger(Params.IsAttack);
     }
 }

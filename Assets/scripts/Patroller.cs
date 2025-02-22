@@ -10,13 +10,25 @@ public class Patroller : MonoBehaviour
 
     public void Move(Transform transform, Flipper flipper)
     {
-        transform.position = Vector2.MoveTowards(transform.position, _waypoints[_currentWaypointIndex].position, _speed * Time.deltaTime);
+        if (_waypoints == null || _waypoints.Length == 0)
+        {
+            return;
+        }
+
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            _waypoints[_currentWaypointIndex].position,
+            _speed * Time.deltaTime
+        );
 
         if ((transform.position - _waypoints[_currentWaypointIndex].position).sqrMagnitude < _minDistance * _minDistance)
         {
-            _currentWaypointIndex = ++_currentWaypointIndex % _waypoints.Length;
+            _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
         }
 
-        flipper.Flip(_waypoints[_currentWaypointIndex].position.x - transform.position.x);
+        if (flipper != null)
+        {
+            flipper.Flip(_waypoints[_currentWaypointIndex].position.x - transform.position.x);
+        }
     }
 }

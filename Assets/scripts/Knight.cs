@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Knight : MonoBehaviour
@@ -6,6 +7,8 @@ public class Knight : MonoBehaviour
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private Flipper _flipper;
+    [SerializeField] private Attack _attack;
+    [SerializeField] private Health _health;
 
     private Rigidbody2D _rigidbody;
     private float _speed = 5f;
@@ -19,12 +22,14 @@ public class Knight : MonoBehaviour
 
     private void OnEnable()
     {
+        _inputReader.AttackPressed += Attack;
         _inputReader.JumpPressed += TryJump;
         _inputReader.HorizontalChanged += OnHorizontalChanged;
     }
 
     private void OnDisable()
     {
+        _inputReader.AttackPressed -= Attack;
         _inputReader.JumpPressed -= TryJump;
         _inputReader.HorizontalChanged -= OnHorizontalChanged;
     }
@@ -41,12 +46,21 @@ public class Knight : MonoBehaviour
         {
             Destroy(coin.gameObject);
         }
+
+        if (collision.TryGetComponent<HealthPack>(out HealthPack healthPack))
+        {
+            if (_health != null)
+            {
+                _health.Heal(healthPack.HealAmount); 
+            }
+            Destroy(healthPack.gameObject);
+        }
     }
 
     private void OnHorizontalChanged(float direction)
     {
         _horizontalMove = direction * _speed;
-        _animator.SetRunning(Mathf.Abs(_horizontalMove));
+        _animator.StartRunning(Mathf.Abs(_horizontalMove));
         _flipper.Flip(direction);
     }
 
@@ -56,6 +70,12 @@ public class Knight : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    private void Attack()
+    {
+        _animator.StartAttack();
+        _attack.TryAttack(gameObject);
     }
 
     private void Jump()

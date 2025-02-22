@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
     {
         WaitForSeconds _delay = new WaitForSeconds(_spawnTime);
 
-        while (true)
+        while (enabled)
         {
             yield return _delay;
             SpawnObject();
