@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Spawnner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField] private Coin _coin;
     [SerializeField] private Transform[] _spawnPoints;
@@ -10,21 +10,21 @@ public class Spawnner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpawnObject());
+        StartCoroutine(SpawnRoutine());
     }
 
-    private IEnumerator SpawnObject()
+    private IEnumerator SpawnRoutine()
     {
         WaitForSeconds _delay = new WaitForSeconds(_spawnTime);
 
         while (true)
         {
             yield return _delay;
-            CreateObject();
+            SpawnObject();
         }
     }
 
-    private void CreateObject()
+    private void SpawnObject()
     {
         int spawnIndex = Random.Range(0, _spawnPoints.Length);
         Transform spawnPoint = _spawnPoints[spawnIndex];
