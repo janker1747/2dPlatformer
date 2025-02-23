@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Knight : MonoBehaviour
 {
-    [SerializeField] private PlayerAnimator _animator;
+    [SerializeField] private CharacterAnimator _animator;
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private Flipper _flipper;
-    [SerializeField] private Attack _attack;
+    [SerializeField] private Attacker _attack;
     [SerializeField] private Health _health;
 
     private Rigidbody2D _rigidbody;

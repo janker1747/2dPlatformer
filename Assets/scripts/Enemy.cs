@@ -4,11 +4,11 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _chaseSpeed = 5f;
     [SerializeField] private float _attackRange = 1.5f;
-    [SerializeField] private PlayerAnimator _animator;
+    [SerializeField] private CharacterAnimator _animator;
     [SerializeField] private Patroller _patroller;
     [SerializeField] private Chaser _chaser;
     [SerializeField] private Flipper _flipper;
-    [SerializeField] private Attack _attack;
+    [SerializeField] private Attacker _attack;
 
     private Transform _playerTransform;
     private bool _isChasing;
@@ -17,8 +17,8 @@ public class Enemy : MonoBehaviour
     {
         if (_chaser != null)
         {
-            _chaser.OnPlayerFound += StartChasing;
-            _chaser.OnPlayerLost += StopChasing;
+            _chaser.PlayerFound += StartChasing;
+            _chaser.PlayerLost += StopChasing;
         }
     }
 
@@ -26,8 +26,8 @@ public class Enemy : MonoBehaviour
     {
         if (_chaser != null)
         {
-            _chaser.OnPlayerFound -= StartChasing;
-            _chaser.OnPlayerLost -= StopChasing;
+            _chaser.PlayerFound -= StartChasing;
+            _chaser.PlayerLost -= StopChasing;
         }
     }
 

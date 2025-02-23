@@ -6,8 +6,8 @@ public class Chaser : MonoBehaviour
     [SerializeField] private float _detectionRange = 5f;
     [SerializeField] private LayerMask _targetLayer;
 
-    public event Action<Transform> OnPlayerFound; 
-    public event Action OnPlayerLost;
+    public event Action<Transform> PlayerFound; 
+    public event Action PlayerLost;
 
     private Transform _playerTransform;
     private bool _isPlayerInRange;
@@ -22,6 +22,7 @@ public class Chaser : MonoBehaviour
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, _detectionRange, _targetLayer);
 
         bool playerFound = false;
+
         foreach (Collider2D target in targets)
         {
             if (target.TryGetComponent(out Knight knight))
@@ -32,15 +33,15 @@ public class Chaser : MonoBehaviour
             }
         }
 
-        if (playerFound && !_isPlayerInRange)
+        if (playerFound && _isPlayerInRange == false)
         {
             _isPlayerInRange = true;
-            OnPlayerFound?.Invoke(_playerTransform);
+            PlayerFound?.Invoke(_playerTransform);
         }
-        else if (!playerFound && _isPlayerInRange)
+        else if (playerFound == false && _isPlayerInRange)
         {
             _isPlayerInRange = false;
-            OnPlayerLost?.Invoke(); 
+            PlayerLost?.Invoke(); 
         }
     }
 
