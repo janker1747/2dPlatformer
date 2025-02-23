@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    [SerializeField] private float attackRange = 2f;
-    [SerializeField] private float attackDamage = 1f;
-    [SerializeField] private float attackCooldown = 1f;
-    [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private float _attackRange = 2f;
+    [SerializeField] private float _attackDamage = 1f;
+    [SerializeField] private float _attackCooldown = 1f;
+    [SerializeField] private LayerMask _targetLayer;
 
     private float _lastAttackTime;
 
     public void TryAttack(GameObject attacker)
     {
-        if (Time.time - _lastAttackTime < attackCooldown)
+        if (Time.time - _lastAttackTime < _attackCooldown)
             return;
 
-        Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, attackRange, targetLayer);
+        Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, _attackRange, _targetLayer);
 
         foreach (Collider2D target in targets)
         {
@@ -24,7 +24,7 @@ public class Attack : MonoBehaviour
 
             if (target.TryGetComponent(out Health health))
             {
-                health.TakeDamage(attackDamage);
+                health.TakeDamage(_attackDamage);
             }
         }
 
