@@ -4,6 +4,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxHealth = 3f;
     private float _currentHealth;
+    private float _minHealth = 0;
 
     private void Awake()
     {
@@ -22,8 +23,11 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount)
     {
-        _currentHealth += amount;
-        _currentHealth = Mathf.Min(_currentHealth, _maxHealth); 
+        if (amount < 0)
+        {
+            _currentHealth += amount;
+            _currentHealth = Mathf.Clamp(_currentHealth,_minHealth, _maxHealth);
+        }
     }
 
     private void Die()

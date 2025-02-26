@@ -15,13 +15,18 @@ public class CharacterAnimator : MonoBehaviour
         bool isEnemyAttack = _animator.GetBool(Params.IsAttack);
     }
 
+    public void KnightAttack()
+    {
+        _animator.SetTrigger(Params.IsAttack);
+    }
+
     public void StartRunning(float speed)
     {
         _animator.SetFloat(Params.Speed, Mathf.Abs(speed));
     }
 
-    public void StartAttack()
+    public void EnemyAttack(bool isAttacking)
     {
-        _animator.SetTrigger(Params.IsAttack);
+        _animator.SetBool(Params.BanditAttack, isAttacking);
     }
 }

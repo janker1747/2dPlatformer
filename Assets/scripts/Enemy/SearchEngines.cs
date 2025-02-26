@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class Chaser : MonoBehaviour
+public class SearchEngines : MonoBehaviour
 {
     [SerializeField] private float _detectionRange = 5f;
     [SerializeField] private LayerMask _targetLayer;

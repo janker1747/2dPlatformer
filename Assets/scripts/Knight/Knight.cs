@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+
 public class Knight : MonoBehaviour
 {
     [SerializeField] private CharacterAnimator _animator;
@@ -42,17 +44,18 @@ public class Knight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Coin>(out Coin coin))
+        if (collision.TryGetComponent<Coin>(out _))
         {
-            Destroy(coin.gameObject);
+            Destroy(collision.gameObject);
         }
 
         if (collision.TryGetComponent<HealthPack>(out HealthPack healthPack))
         {
             if (_health != null)
             {
-                _health.Heal(healthPack.HealAmount); 
+                _health.Heal(healthPack.HealAmount);
             }
+
             Destroy(healthPack.gameObject);
         }
     }
@@ -74,7 +77,7 @@ public class Knight : MonoBehaviour
 
     private void Attack()
     {
-        _animator.StartAttack();
+        _animator.KnightAttack();
         _attack.TryAttack(gameObject);
     }
 

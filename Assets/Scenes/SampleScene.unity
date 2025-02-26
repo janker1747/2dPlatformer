@@ -3379,8 +3379,8 @@ GameObject:
   - component: {fileID: 1428386377}
   - component: {fileID: 1428386378}
   - component: {fileID: 1428386379}
-  - component: {fileID: 1428386381}
   - component: {fileID: 1428386380}
+  - component: {fileID: 1428386381}
   m_Layer: 0
   m_Name: HeroKnight_0
   m_TagString: Player
@@ -3641,13 +3641,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1428386368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3f10d088cb1b8c47baeaffa688494d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 035b2a9ea05beb44998a07fc6d0d758a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 2
-  attackDamage: 2
-  attackCooldown: 1
-  targetLayer:
+  _attackRange: 2
+  _attackDamage: 2
+  _attackCooldown: 1
+  _targetLayer:
     serializedVersion: 2
     m_Bits: 1
 --- !u!1 &1679116028
@@ -3922,8 +3922,8 @@ GameObject:
   - component: {fileID: 1819208008}
   - component: {fileID: 1819208007}
   - component: {fileID: 1819208012}
-  - component: {fileID: 1819208011}
   - component: {fileID: 1819208010}
+  - component: {fileID: 1819208013}
   m_Layer: 0
   m_Name: HeavyBandit_0
   m_TagString: Untagged
@@ -3949,7 +3949,7 @@ MonoBehaviour:
   _patroller: {fileID: 1819208007}
   _chaser: {fileID: 1819208012}
   _flipper: {fileID: 1819208009}
-  _attack: {fileID: 1819208011}
+  _attack: {fileID: 1819208013}
 --- !u!95 &1819208002
 Animator:
   serializedVersion: 5
@@ -4164,24 +4164,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 3
---- !u!114 &1819208011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819208000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3f10d088cb1b8c47baeaffa688494d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 2
-  attackDamage: 1
-  attackCooldown: 1
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!114 &1819208012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4195,6 +4177,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectionRange: 20
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!114 &1819208013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819208000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 035b2a9ea05beb44998a07fc6d0d758a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackRange: 2
+  _attackDamage: 1
+  _attackCooldown: 1
   _targetLayer:
     serializedVersion: 2
     m_Bits: 1

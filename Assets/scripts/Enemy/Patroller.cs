@@ -6,9 +6,15 @@ public class Patroller : MonoBehaviour
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private float _minDistance = 0.1f;
 
+    private Flipper _flipper;
     private int _currentWaypointIndex = 0;
 
-    public void Move(Transform transform, Flipper flipper)
+    private void Awake()
+    {
+        _flipper = GetComponent<Flipper>();
+    }
+
+    public void Move(Transform transform)
     {
         if (_waypoints == null || _waypoints.Length == 0)
         {
@@ -23,12 +29,12 @@ public class Patroller : MonoBehaviour
 
         if ((transform.position - _waypoints[_currentWaypointIndex].position).sqrMagnitude < _minDistance * _minDistance)
         {
-            _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
+            _currentWaypointIndex = ++_currentWaypointIndex  % _waypoints.Length;
         }
 
-        if (flipper != null)
+        if (_flipper != null)
         {
-            flipper.Flip(_waypoints[_currentWaypointIndex].position.x - transform.position.x);
+            _flipper.Flip(_waypoints[_currentWaypointIndex].position.x - transform.position.x);
         }
     }
 }

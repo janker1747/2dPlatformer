@@ -6,12 +6,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _attackRange = 1.5f;
     [SerializeField] private CharacterAnimator _animator;
     [SerializeField] private Patroller _patroller;
-    [SerializeField] private Chaser _chaser;
-    [SerializeField] private Flipper _flipper;
+    [SerializeField] private SearchEngines _chaser;
     [SerializeField] private Attacker _attack;
 
+    private Flipper _flipper;
     private Transform _playerTransform;
     private bool _isChasing;
+
+    private void Awake()
+    {
+        _flipper = GetComponent<Flipper>();
+    }
 
     private void OnEnable()
     {
@@ -68,7 +73,7 @@ public class Enemy : MonoBehaviour
             _flipper.Flip(_playerTransform.position.x - transform.position.x);
         }
 
-        if (Vector2.Distance(transform.position, _playerTransform.position) <= _attackRange)
+        if (Vector2.SqrMagnitude(transform.position - _playerTransform.position) <= _attackRange)
         {
             AttackPlayer();
         }
@@ -78,7 +83,7 @@ public class Enemy : MonoBehaviour
     {
         if (_patroller != null)
         {
-            _patroller.Move(transform, _flipper);
+            _patroller.Move(transform);
         }
     }
 
