@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(KnightCombat))]
 [RequireComponent(typeof(KnightAnimator))]
 [RequireComponent(typeof(KnightCollisionHandler))]
+[RequireComponent(typeof(Flipper))]
 
 public class Knight : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class Knight : MonoBehaviour
         _animator = GetComponent<KnightAnimator>();
 
         _combat.Initialize(_attack, _animator);
-        _collisionHandler.Initialize(_health);
+
+        _health.OnDeath += HandleDeath;
     }
 
     private void OnEnable()
@@ -33,6 +35,8 @@ public class Knight : MonoBehaviour
         _inputReader.AttackPressed += _combat.Attack;
         _inputReader.JumpPressed += _playerController.TryJump;
         _inputReader.HorizontalChanged += OnHorizontalChanged;
+        _collisionHandler.OnHealthPackCollected += HandleHealthPackCollected;
+
     }
 
     private void OnDisable()
@@ -40,6 +44,9 @@ public class Knight : MonoBehaviour
         _inputReader.AttackPressed -= _combat.Attack;
         _inputReader.JumpPressed -= _playerController.TryJump;
         _inputReader.HorizontalChanged -= OnHorizontalChanged;
+        _collisionHandler.OnHealthPackCollected -= HandleHealthPackCollected;
+
+        _health.OnDeath -= HandleDeath;
     }
 
     private void OnHorizontalChanged(float direction)
@@ -48,5 +55,15 @@ public class Knight : MonoBehaviour
 
         if (direction != 0)
             _flipper.Flip(direction);
+    }
+
+    private void HandleHealthPackCollected(float healAmount)
+    {
+        _health.ApplyHeal(healAmount); 
+    }
+
+    private void HandleDeath()
+    {
+        Destroy(gameObject);
     }
 }

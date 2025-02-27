@@ -6,12 +6,12 @@ public class InputReader : MonoBehaviour
     private const string _commandHorizontal = "Horizontal";
     private const string _commandJump = "Jump";
 
+    private float _previousHorizontalInput = 0f;
+    private int _leftMouseButton = 0;
+
     public event Action AttackPressed;
     public event Action JumpPressed;
     public event Action<float> HorizontalChanged;
-
-    private float _previousHorizontalInput = 0f;
-    private int _leftMouseButton = 0;
 
     private void Update()
     {

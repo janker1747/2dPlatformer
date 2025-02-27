@@ -20,7 +20,6 @@ public class SearchEngines : MonoBehaviour
     private void FindPlayer()
     {
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, _detectionRange, _targetLayer);
-        Debug.Log($"Found {targets.Length} targets in detection range.");
 
         bool playerFound = false;
 
@@ -30,7 +29,6 @@ public class SearchEngines : MonoBehaviour
             {
                 _playerTransform = target.transform;
                 playerFound = true;
-                Debug.Log("Player found: " + _playerTransform.name);
                 break;
             }
         }
@@ -38,13 +36,11 @@ public class SearchEngines : MonoBehaviour
         if (playerFound && !_isPlayerInRange)
         {
             _isPlayerInRange = true;
-            Debug.Log("Player entered detection range.");
             PlayerFound?.Invoke(_playerTransform);
         }
         else if (!playerFound && _isPlayerInRange)
         {
             _isPlayerInRange = false;
-            Debug.Log("Player left detection range.");
             PlayerLost?.Invoke();
         }
     }

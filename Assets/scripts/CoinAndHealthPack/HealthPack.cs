@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HealthPack : MonoBehaviour
+public class HealthPack : CollectibleItem
 {
     [SerializeField] private float _healAmount = 1f; 
 

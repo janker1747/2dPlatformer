@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class EnemyMover : MonoBehaviour
 {
     private float _chaseSpeed;

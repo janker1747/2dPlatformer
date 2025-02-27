@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyCombat))]
 [RequireComponent(typeof(EnemyMover))]
 [RequireComponent(typeof(EnemyStateManager))]
+[RequireComponent(typeof(Flipper))]
 
 public class Enemy : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _attackRange = 1.5f;
     [SerializeField] private EnemyAnimator _animator;
     [SerializeField] private Patroller _patroller;
-    [SerializeField] private SearchEngines _chaser;
-    [SerializeField] private Attacker _attack;
+    [SerializeField] private SearchEngines _searchEngines;
+    [SerializeField] private Attacker _attacker;
+    [SerializeField] private Health _health; 
 
     private EnemyMover _mover;
     private EnemyCombat _combat;
@@ -19,30 +21,39 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _mover = gameObject.AddComponent<EnemyMover>();
-        _combat = gameObject.AddComponent<EnemyCombat>();
-        _stateManager = gameObject.AddComponent<EnemyStateManager>();
+        _mover = GetComponent<EnemyMover>();
+        _combat = GetComponent<EnemyCombat>();
+        _stateManager = GetComponent<EnemyStateManager>();
 
         _mover.Initialize(_chaseSpeed, _patroller, GetComponent<Flipper>());
-        _combat.Initialize(_attack, _animator, _attackRange);
+        _combat.Initialize(_attacker, _animator, _attackRange);
         _stateManager.Initialize(_mover, _combat);
+
+        _health.OnDeath += HandleDeath;
     }
 
     private void OnEnable()
     {
-        if (_chaser != null)
+        if (_searchEngines != null)
         {
-            _chaser.PlayerFound += _stateManager.StartChasing;
-            _chaser.PlayerLost += _stateManager.StopChasing;
+            _searchEngines.PlayerFound += _stateManager.StartChasing;
+            _searchEngines.PlayerLost += _stateManager.StopChasing;
         }
     }
 
     private void OnDisable()
     {
-        if (_chaser != null)
+        if (_searchEngines != null)
         {
-            _chaser.PlayerFound -= _stateManager.StartChasing;
-            _chaser.PlayerLost -= _stateManager.StopChasing;
+            _searchEngines.PlayerFound -= _stateManager.StartChasing;
+            _searchEngines.PlayerLost -= _stateManager.StopChasing;
         }
+
+        _health.OnDeath -= HandleDeath;
+    }
+
+    private void HandleDeath()
+    {
+        Destroy(gameObject);
     }
 }

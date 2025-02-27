@@ -12,11 +12,11 @@ public class EnemyAnimator : KnightAnimator
     public void EnemyRunning(float speed)
     {
   
-        _animator.SetFloat(Params.Speed, Mathf.Abs(speed));
+        _animator.SetFloat(MovementParams.speed, Mathf.Abs(speed));
     }
 
     public void EnemyAttack()
     {
-        _animator.SetTrigger(Params.BanditAttack);
+        _animator.SetTrigger(AttackParams.banditAttack);
     }
 }
