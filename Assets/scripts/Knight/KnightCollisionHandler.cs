@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KnightCollisionHandler : MonoBehaviour
 {
-    public event Action<float> OnHealthPackCollected;
+    public event Action<float> HealthPackCollected;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -11,17 +11,12 @@ public class KnightCollisionHandler : MonoBehaviour
 
         if (collectible != null)
         {
-            if (collectible is Coin coin)
+            if (collectible is HealthPack healthPack)
             {
-                Destroy(collision.gameObject);
-            }
-            else if (collectible is HealthPack healthPack)
-            {
-                OnHealthPackCollected?.Invoke(healthPack.HealAmount);
+                HealthPackCollected?.Invoke(healthPack.HealAmount);
 
                 Destroy(healthPack.gameObject);
             }
-
         }
     }
 }

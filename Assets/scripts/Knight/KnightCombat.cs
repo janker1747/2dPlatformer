@@ -13,7 +13,7 @@ public class KnightCombat : MonoBehaviour
 
     public void Attack()
     {
-        _animator.KnightAttack();
+        _animator.Attack();
         _attack.TryAttack(gameObject);
     }
 }

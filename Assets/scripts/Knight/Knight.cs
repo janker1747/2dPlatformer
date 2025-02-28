@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerMover))]
 [RequireComponent(typeof(KnightCombat))]
 [RequireComponent(typeof(KnightAnimator))]
 [RequireComponent(typeof(KnightCollisionHandler))]
@@ -13,14 +13,14 @@ public class Knight : MonoBehaviour
     [SerializeField] private Attacker _attack;
     [SerializeField] private Health _health;
 
-    private PlayerController _playerController;
+    private PlayerMover _playerController;
     private KnightCombat _combat;
     private KnightCollisionHandler _collisionHandler;
     private KnightAnimator _animator;
 
     private void Awake()
     {
-        _playerController = GetComponent<PlayerController>();
+        _playerController = GetComponent<PlayerMover>();
         _combat = GetComponent<KnightCombat>();
         _collisionHandler = GetComponent<KnightCollisionHandler>();
         _animator = GetComponent<KnightAnimator>();
@@ -35,7 +35,7 @@ public class Knight : MonoBehaviour
         _inputReader.AttackPressed += _combat.Attack;
         _inputReader.JumpPressed += _playerController.TryJump;
         _inputReader.HorizontalChanged += OnHorizontalChanged;
-        _collisionHandler.OnHealthPackCollected += HandleHealthPackCollected;
+        _collisionHandler.HealthPackCollected += HandleHealthPackCollected;
 
     }
 
@@ -44,14 +44,14 @@ public class Knight : MonoBehaviour
         _inputReader.AttackPressed -= _combat.Attack;
         _inputReader.JumpPressed -= _playerController.TryJump;
         _inputReader.HorizontalChanged -= OnHorizontalChanged;
-        _collisionHandler.OnHealthPackCollected -= HandleHealthPackCollected;
+        _collisionHandler.HealthPackCollected -= HandleHealthPackCollected;
 
         _health.OnDeath -= HandleDeath;
     }
 
     private void OnHorizontalChanged(float direction)
     {
-        _animator.StartRunning(Mathf.Abs(direction));
+        _animator.SetSpeed(Mathf.Abs(direction));
 
         if (direction != 0)
             _flipper.Flip(direction);

@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyCombat))]
 [RequireComponent(typeof(EnemyMover))]
-[RequireComponent(typeof(EnemyStateManager))]
+[RequireComponent(typeof(EnemyChaser))]
 [RequireComponent(typeof(Flipper))]
 
 public class Enemy : MonoBehaviour
@@ -17,13 +17,13 @@ public class Enemy : MonoBehaviour
 
     private EnemyMover _mover;
     private EnemyCombat _combat;
-    private EnemyStateManager _stateManager;
+    private EnemyChaser _stateManager;
 
     private void Awake()
     {
         _mover = GetComponent<EnemyMover>();
         _combat = GetComponent<EnemyCombat>();
-        _stateManager = GetComponent<EnemyStateManager>();
+        _stateManager = GetComponent<EnemyChaser>();
 
         _mover.Initialize(_chaseSpeed, _patroller, GetComponent<Flipper>());
         _combat.Initialize(_attacker, _animator, _attackRange);

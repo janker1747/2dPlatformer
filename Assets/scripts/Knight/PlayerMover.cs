@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class PlayerController : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce = 10f;
@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     private Flipper _flipper;
     private float _horizontalMove;
     private bool _isJumpRequested = false;
+
+    public void TryJump()
+    {
+        _isJumpRequested = true;
+    }
 
     private void Awake()
     {
@@ -66,8 +71,4 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TryJump()
-    {
-        _isJumpRequested = true;
-    }
 }

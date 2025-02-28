@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyStateManager : MonoBehaviour
+public class EnemyChaser : MonoBehaviour
 {
     private EnemyMover _mover;
     private EnemyCombat _combat;
@@ -34,6 +34,10 @@ public class EnemyStateManager : MonoBehaviour
             if (_combat.CanAttack(transform.position, _playerTransform.position))
             {
                 _combat.Attack(gameObject);
+            }
+            else
+            {
+                _mover.StartChasing(_playerTransform);
             }
         }
     }

@@ -9,13 +9,13 @@ public class KnightAnimator : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public void KnightAttack()
+    public void Attack()
     {
-        _animator.SetTrigger(AttackParams.isAttack);
+        _animator.SetTrigger(AttackParams.KnightAttack);
     }
 
-    public void StartRunning(float speed)
+    public void SetSpeed(float speed)
     {
-        _animator.SetFloat(MovementParams.speed, Mathf.Abs(speed));
+        _animator.SetFloat(MovementParams.ChacterSpeed, Mathf.Abs(speed));
     }
 }

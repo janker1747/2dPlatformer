@@ -3,12 +3,16 @@ using System;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float _max = 3f; 
-    private float _current; 
-    private const float Min = 0; 
+    private const float Min = 0;
 
-    public event Action<float> OnHealthChanged; 
-    public event Action OnDeath; 
+    [SerializeField] private float _max = 3f;
+    private float _current;
+
+    public float Current => _current;
+    public float Max => _max;
+
+    public event Action<float> OnHealthChanged;
+    public event Action OnDeath;
 
     private void Awake()
     {
@@ -43,15 +47,11 @@ public class Health : MonoBehaviour
         _current += amount;
         _current = Mathf.Clamp(_current, Min, _max);
 
-        OnHealthChanged?.Invoke(_current); 
+        OnHealthChanged?.Invoke(_current);
     }
 
     private void Die()
     {
-        OnDeath?.Invoke(); 
+        OnDeath?.Invoke();
     }
-
-    public float Current => _current;
-
-    public float Max => _max;
 }
