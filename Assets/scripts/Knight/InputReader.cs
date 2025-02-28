@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    private const string _commandHorizontal = "Horizontal";
-    private const string _commandJump = "Jump";
+    private const string CommandHorizontal = "Horizontal";
+    private const string CommandJump = "Jump";
 
     private float _previousHorizontalInput = 0f;
     private int _leftMouseButton = 0;
@@ -15,7 +15,7 @@ public class InputReader : MonoBehaviour
 
     private void Update()
     {
-        float horizontalInput = Input.GetAxisRaw(_commandHorizontal);
+        float horizontalInput = Input.GetAxisRaw(CommandHorizontal);
 
         if (Mathf.Abs(horizontalInput - _previousHorizontalInput) > Mathf.Epsilon)
         {
@@ -23,7 +23,7 @@ public class InputReader : MonoBehaviour
             HorizontalChanged?.Invoke(horizontalInput);
         }
 
-        if (Input.GetButtonDown(_commandJump))
+        if (Input.GetButtonDown(CommandJump))
         {
             JumpPressed?.Invoke();
         }

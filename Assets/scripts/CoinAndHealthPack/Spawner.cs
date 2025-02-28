@@ -26,6 +26,7 @@ public class Spawner : MonoBehaviour
 
     private void OnCoinCollected(Coin coin)
     {
+        coin.Collected -= OnCoinCollected;
         Destroy(coin.gameObject); 
     }   
 
@@ -39,7 +40,7 @@ public class Spawner : MonoBehaviour
         if (existingCoin == null)
         {
            Coin clonCoin =  Instantiate(_coin, spawnPoint.position, spawnPoint.rotation);
-           clonCoin.Collect += OnCoinCollected;
+           clonCoin.Collected += OnCoinCollected;
         }
     }
 }

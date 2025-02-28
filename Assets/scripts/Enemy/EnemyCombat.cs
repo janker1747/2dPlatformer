@@ -21,6 +21,6 @@ public class EnemyCombat : MonoBehaviour
     public void Attack(GameObject enemy)
     {
         _animator.EnemyAttack();
-        _attacker.TryAttack(enemy);
+        _attacker.TryAttack();
     }
 }

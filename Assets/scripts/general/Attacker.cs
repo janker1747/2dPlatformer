@@ -7,9 +7,10 @@ public class Attacker : MonoBehaviour
     [SerializeField] private float _attackCooldown = 1f;
     [SerializeField] private LayerMask _targetLayer;
 
+    private float _attackOffset;
     private float _lastAttackTime;
 
-    public void TryAttack(GameObject attacker)
+    public void TryAttack()
     {
         _lastAttackTime -= Time.time;
 
@@ -18,15 +19,14 @@ public class Attacker : MonoBehaviour
             return;
         }
 
+        Vector2 attackDirection = transform.right;
+
+        Vector2 attackPosition = (Vector2)transform.position + attackDirection * _attackOffset;
+
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, _attackRange, _targetLayer);
 
         foreach (Collider2D target in targets)
         {
-            if (target.gameObject == attacker)
-            {
-                continue;
-            }
-
             if (target.TryGetComponent(out Health health))
             {
                 health.TakeDamage(_attackDamage);

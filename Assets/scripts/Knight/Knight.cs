@@ -26,12 +26,11 @@ public class Knight : MonoBehaviour
         _animator = GetComponent<KnightAnimator>();
 
         _combat.Initialize(_attack, _animator);
-
-        _health.OnDeath += HandleDeath;
     }
 
     private void OnEnable()
     {
+        _health.OnDeath += HandleDeath;
         _inputReader.AttackPressed += _combat.Attack;
         _inputReader.JumpPressed += _playerController.TryJump;
         _inputReader.HorizontalChanged += OnHorizontalChanged;

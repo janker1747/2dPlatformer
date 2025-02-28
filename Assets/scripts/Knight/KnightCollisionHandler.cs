@@ -7,15 +7,16 @@ public class KnightCollisionHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CollectibleItem collectible = collision.GetComponent<CollectibleItem>();
-
-        if (collectible != null)
+        if (collision.TryGetComponent(out CollectibleItem collectible))
         {
             if (collectible is HealthPack healthPack)
             {
                 HealthPackCollected?.Invoke(healthPack.HealAmount);
-
                 Destroy(healthPack.gameObject);
+            }
+            else if (collectible is Coin coin) 
+            {
+                Destroy(coin.gameObject);
             }
         }
     }

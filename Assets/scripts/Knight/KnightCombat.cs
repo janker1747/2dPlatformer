@@ -14,6 +14,6 @@ public class KnightCombat : MonoBehaviour
     public void Attack()
     {
         _animator.Attack();
-        _attack.TryAttack(gameObject);
+        _attack.TryAttack();
     }
 }
