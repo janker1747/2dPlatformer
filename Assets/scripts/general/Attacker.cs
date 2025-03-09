@@ -12,15 +12,12 @@ public class Attacker : MonoBehaviour
 
     public void TryAttack()
     {
-        _lastAttackTime -= Time.time;
-
-        if (_lastAttackTime < _attackCooldown)
+        if (Time.time - _lastAttackTime < _attackCooldown)
         {
             return;
         }
 
         Vector2 attackDirection = transform.right;
-
         Vector2 attackPosition = (Vector2)transform.position + attackDirection * _attackOffset;
 
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, _attackRange, _targetLayer);

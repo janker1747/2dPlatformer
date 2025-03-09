@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     public float Current => _current;
     public float Max => _max;
 
-    public event Action<float> OnHealthChanged;
+    public event Action<float> HealthChanged;
     public event Action OnDeath;
 
     private void Awake()
@@ -29,7 +29,9 @@ public class Health : MonoBehaviour
         _current -= damage;
         _current = Mathf.Clamp(_current, Min, _max);
 
-        OnHealthChanged?.Invoke(_current);
+        Debug.Log($"{name} получил {damage} урона. Осталось здоровья: {_current}");
+
+        HealthChanged?.Invoke(_current/ _max);
 
         if (_current <= Min)
         {
@@ -47,7 +49,7 @@ public class Health : MonoBehaviour
         _current += amount;
         _current = Mathf.Clamp(_current, Min, _max);
 
-        OnHealthChanged?.Invoke(_current);
+        HealthChanged?.Invoke(_current / _max);
     }
 
     private void Die()

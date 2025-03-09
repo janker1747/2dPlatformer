@@ -13,6 +13,7 @@ public class KnightCombat : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log($"{name} начал атаку.");
         _animator.Attack();
         _attack.TryAttack();
     }
