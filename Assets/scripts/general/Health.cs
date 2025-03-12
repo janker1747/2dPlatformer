@@ -29,8 +29,6 @@ public class Health : MonoBehaviour
         _current -= damage;
         _current = Mathf.Clamp(_current, Min, _max);
 
-        Debug.Log($"{name} получил {damage} урона. Осталось здоровья: {_current}");
-
         HealthChanged?.Invoke(_current/ _max);
 
         if (_current <= Min)

@@ -9,6 +9,7 @@ public class InputReader : MonoBehaviour
     private float _previousHorizontalInput = 0f;
     private int _leftMouseButton = 0;
 
+    public event Action VampirismPressed;
     public event Action AttackPressed;
     public event Action JumpPressed;
     public event Action<float> HorizontalChanged;
@@ -31,6 +32,11 @@ public class InputReader : MonoBehaviour
         if (Input.GetMouseButton(_leftMouseButton))
         {
             AttackPressed?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            VampirismPressed?.Invoke();
         }
     }
 }

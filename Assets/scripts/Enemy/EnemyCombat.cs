@@ -20,7 +20,6 @@ public class EnemyCombat : MonoBehaviour
 
     public void Attack(GameObject enemy)
     {
-        Debug.Log($"{name} начал атаку.");
         _animator.EnemyAttack();
         _attacker.TryAttack();
     }

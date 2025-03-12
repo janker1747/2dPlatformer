@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(KnightAnimator))]
 [RequireComponent(typeof(KnightCollisionHandler))]
 [RequireComponent(typeof(Flipper))]
+[RequireComponent(typeof(Vampirism))]
 
 public class Knight : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Knight : MonoBehaviour
     [SerializeField] private Attacker _attack;
     [SerializeField] private Health _health;
 
+    private Vampirism _vampirism;
     private PlayerMover _playerController;
     private KnightCombat _combat;
     private KnightCollisionHandler _collisionHandler;
@@ -24,6 +26,7 @@ public class Knight : MonoBehaviour
         _combat = GetComponent<KnightCombat>();
         _collisionHandler = GetComponent<KnightCollisionHandler>();
         _animator = GetComponent<KnightAnimator>();
+        _vampirism = GetComponent<Vampirism>();
 
         _combat.Initialize(_attack, _animator);
     }
@@ -34,6 +37,7 @@ public class Knight : MonoBehaviour
         _inputReader.AttackPressed += _combat.Attack;
         _inputReader.JumpPressed += _playerController.TryJump;
         _inputReader.HorizontalChanged += OnHorizontalChanged;
+        _inputReader.VampirismPressed += _vampirism.ActivateSkill;
         _collisionHandler.HealthPackCollected += HandleHealthPackCollected;
 
     }
@@ -43,6 +47,7 @@ public class Knight : MonoBehaviour
         _inputReader.AttackPressed -= _combat.Attack;
         _inputReader.JumpPressed -= _playerController.TryJump;
         _inputReader.HorizontalChanged -= OnHorizontalChanged;
+        _inputReader.VampirismPressed -= _vampirism.ActivateSkill;
         _collisionHandler.HealthPackCollected -= HandleHealthPackCollected;
 
         _health.OnDeath -= HandleDeath;
