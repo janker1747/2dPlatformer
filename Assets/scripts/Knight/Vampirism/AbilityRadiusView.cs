@@ -11,11 +11,11 @@ public class AbilityRadiusView : MonoBehaviour
         _radiusIndicator.enabled = false;
     }
 
-    public void UpdateView()
+    public void UpdateView(float radius)
     {
         float spriteScale = 2f;
 
-        transform.localScale = Vector3.one * _abilityRadius.Radius * spriteScale; 
+        transform.localScale = Vector3.one * radius * spriteScale; 
     }
 
     public void ShowRadius()
