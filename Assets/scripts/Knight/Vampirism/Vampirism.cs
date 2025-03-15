@@ -14,6 +14,9 @@ public class Vampirism : MonoBehaviour
     private float _lastActivatedTime = -Mathf.Infinity;
     private Coroutine _coroutine;
 
+    private const int MaxColliders = 10;
+    private Collider2D[] _hitColliders = new Collider2D[MaxColliders];
+
     public float CooldownDuration => _cooldown;
     public float CooldownEndTime => _lastActivatedTime + _cooldown;
 
@@ -32,7 +35,6 @@ public class Vampirism : MonoBehaviour
 
     private IEnumerator ActivateVampirism()
     {
-
         if (_coroutine == null)
         {
             _coroutine = StartCoroutine(DamageDiling());
@@ -80,19 +82,20 @@ public class Vampirism : MonoBehaviour
 
     private Enemy GetClosestEnemy()
     {
-        int maxValue = 10;
-        Collider2D[] hitColliders = new Collider2D[maxValue];
-        int count = Physics2D.OverlapCircleNonAlloc(transform.position, _radius, hitColliders, _targetLayer);
+        int count = Physics2D.OverlapCircleNonAlloc(transform.position, _radius, _hitColliders, _targetLayer);
         Enemy closestEnemy = null;
         float closestDistance = Mathf.Infinity;
+        Vector2 selfPosition = transform.position;
 
         for (int i = 0; i < count; i++)
         {
-            Collider2D collider = hitColliders[i];
+            Collider2D collider = _hitColliders[i];
 
             if (collider != null && collider.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                float distance = Vector2.Distance(transform.position, enemy.transform.position);
+                Vector2 enemyPosition = enemy.transform.position;
+                Vector2 toEnemy = enemyPosition - selfPosition;
+                float distance = toEnemy.sqrMagnitude;
 
                 if (distance < closestDistance)
                 {
